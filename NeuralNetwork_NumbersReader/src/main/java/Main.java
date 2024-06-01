@@ -29,10 +29,21 @@ public class Main {
     }*/
 
     public static void main(String[] args) {
-        List<Image> images = new DataReader().readData("C:\\Faks\\numbers_reader\\processed_images");
+        /*Call this only when some data set (picture directories) were updated with new pictures to process them.*/
+        //dataReader.processDigitDirectory("C:\\Faks\\numbers_reader\\pre_processed_images", "C:\\Faks\\numbers_reader\\processed_images");
 
-        System.out.println(images.get(0));
-        System.out.println(images.get(1));
+        //List<Image> images = new DataReader().readData("C:\\Faks\\numbers_reader\\processed_images");
+
+        //System.out.println(images.get(0));
+        //System.out.println(images.get(1));
+        DataReader dataReader = new DataReader();
+        List<Image> images = dataReader.readSubDirectories("C:\\Faks\\numbers_reader\\processed_images");
+
+        System.out.println(images.get(12));
+        /*U images su ti sve slike iz processed_images fino labelirane.
+        * video nastavi od 17:00 ili 17:20 negdje.*/
+
+
     }
 
 
