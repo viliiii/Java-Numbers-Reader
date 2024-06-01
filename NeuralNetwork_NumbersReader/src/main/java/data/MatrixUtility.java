@@ -78,5 +78,20 @@ public class MatrixUtility {
     }
 
 
+    public static int getMaxIndex(double[] v){
+        double max = 0;
+        int ind = 0;
+
+        for(int i = 0; i < v.length; i++){
+            if(v[i] >= max){
+                max = v[i];
+                ind = i;
+            }
+        }
+
+        return ind;
+    }
+
+
 
 }
