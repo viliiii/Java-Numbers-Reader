@@ -50,25 +50,25 @@ public class Main {
         System.out.println("Test images set size: " + imagesTest.size());
 
         long SEED = 123;
-
-        NetworkBuilder builder = new NetworkBuilder(80, 45, 256*100);
         /*builder.addConvolutionLayer(8, 5, 1, 0.1, SEED);
-        builder.addMaxPoolLayer(3, 2);
-        builder.addFullyConnectedLayer(10, 0.1, SEED);*/
-        builder.addConvolutionLayer(32, 3, 1, 0.01, SEED);
+                builder.addMaxPoolLayer(3, 2);
+                builder.addFullyConnectedLayer(10, 0.1, SEED);*/
+        NetworkBuilder builder = new NetworkBuilder(80, 45, 256*100);
+
+        builder.addConvolutionLayer(32, 5, 1, 0.001, SEED);
         builder.addMaxPoolLayer(2, 2);
-        builder.addConvolutionLayer(64, 3, 1, 0.01, SEED);
+        builder.addConvolutionLayer(64, 3, 1, 0.001, SEED);
         builder.addMaxPoolLayer(2, 2);
-        builder.addFullyConnectedLayer(128, 0.1, SEED);
-        builder.addFullyConnectedLayer(64, 0.1, SEED);
-        builder.addFullyConnectedLayer(10, 0.1, SEED);
+        builder.addFullyConnectedLayer(128, 0.001, SEED);
+        builder.addFullyConnectedLayer(64, 0.001, SEED);
+        builder.addFullyConnectedLayer(10, 0.001, SEED);
 
         NeuralNetwork network = builder.build();
 
         double withoutTraining_rate = network.testAccuracy(imagesTest);
         System.out.println("Pre training success rate: " + withoutTraining_rate);
 
-        int epochs = 3;
+        int epochs = 6;
 
         for (int i = 0; i < epochs; i++) {
             shuffle(imagesTrain);   //so the same digits are not grouped together, incoming one after another
