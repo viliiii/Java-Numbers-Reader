@@ -4,7 +4,7 @@ public class MatrixUtility {
 
     public static double[][] add(double[][] a, double[][] b) {
 
-        double[][] result = new double[a.length][b.length];
+        double[][] result = new double[a.length][a[0].length];
 
         for(int i = 0; i < a.length; i++){
             for(int j = 0; j < a[0].length; j++){
