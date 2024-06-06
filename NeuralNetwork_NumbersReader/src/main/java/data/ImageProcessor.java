@@ -41,17 +41,17 @@ public class ImageProcessor {
             int width = image.getWidth();
             int height = image.getHeight();
 
-            BufferedImage scaledImage = new BufferedImage(45, 80, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage scaledImage = new BufferedImage(28, 28, BufferedImage.TYPE_INT_ARGB);
 
-            AffineTransform affineTransform = AffineTransform.getScaleInstance(45.0/width, 80.0/height);
+            AffineTransform affineTransform = AffineTransform.getScaleInstance(28.0/width, 28.0/height);
             AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
 
             scaledImage = affineTransformOp.filter(image, scaledImage);
             int swidth = scaledImage.getWidth();
             int swheight = scaledImage.getHeight();
 
-            System.out.println("width: " + width + ", height: " + height);
-            System.out.println("swidth: " + swidth + ", swheight: " + swheight);
+            //System.out.println("width: " + width + ", height: " + height);
+            //System.out.println("swidth: " + swidth + ", swheight: " + swheight);
 
             return scaledImage;
 

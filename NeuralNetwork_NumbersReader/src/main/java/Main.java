@@ -37,45 +37,49 @@ public class Main {
         DataReader dataReader = new DataReader();
 
         /*Call this only when some data set (picture directories) were updated with new pictures to process them.*/
-        //dataReader.processDigitDirectory("C:\\Faks\\numbers_reader\\pre_processed_images_test", "C:\\Faks\\numbers_reader\\processed_images_test");
+        //dataReader.processDigitDirectory("C:\\Faks\\numbers_reader\\pre_processed_images_test", "C:\\Faks\\numbers_reader\\processed_images_test_28x28");
 
-        System.out.println("Starting data loading...");
+        //OVO DOLJE JE MAIN ZA TRENIRANJE I TESTIRANJE
+        /*System.out.println("Starting data loading...");
 
         List<Image> imagesTrain = dataReader.readSubDirectories("C:\\Faks\\numbers_reader\\processed_images");
         List<Image> imagesTest = dataReader.readSubDirectories("C:\\Faks\\numbers_reader\\processed_images_test");
 
-        /*U images su ti sve slike iz processed_images_* fino labelirane.*/
 
         System.out.println("Training images set size: " + imagesTrain.size());
         System.out.println("Test images set size: " + imagesTest.size());
 
+        for(int i = 0; i < 5000; i=i+500){
+            System.out.println(imagesTrain.get(i).toString());
+        }
         long SEED = 123;
-        /*builder.addConvolutionLayer(8, 5, 1, 0.1, SEED);
-                builder.addMaxPoolLayer(3, 2);
-                builder.addFullyConnectedLayer(10, 0.1, SEED);*/
-        NetworkBuilder builder = new NetworkBuilder(80, 45, 256*100);
+        NetworkBuilder builder = new NetworkBuilder(80, 45, 256);   //probaj manji scaling
 
-        builder.addConvolutionLayer(32, 5, 1, 0.001, SEED);
+        builder.addConvolutionLayer(32, 3, 1, 0.01, SEED);
+        builder.addMaxPoolLayer(3, 3);
+        builder.addFullyConnectedLayer(10, 0.01, SEED);
+
+        *//*builder.addConvolutionLayer(32, 5, 1, 0.001, SEED);
         builder.addMaxPoolLayer(2, 2);
         builder.addConvolutionLayer(64, 3, 1, 0.001, SEED);
         builder.addMaxPoolLayer(2, 2);
         builder.addFullyConnectedLayer(128, 0.001, SEED);
         builder.addFullyConnectedLayer(64, 0.001, SEED);
-        builder.addFullyConnectedLayer(10, 0.001, SEED);
+        builder.addFullyConnectedLayer(10, 0.001, SEED);*//*
 
         NeuralNetwork network = builder.build();
 
         double withoutTraining_rate = network.testAccuracy(imagesTest);
         System.out.println("Pre training success rate: " + withoutTraining_rate);
 
-        int epochs = 6;
+        int epochs = 5;
 
         for (int i = 0; i < epochs; i++) {
             shuffle(imagesTrain);   //so the same digits are not grouped together, incoming one after another
             network.train(imagesTrain);
             double rate = network.testAccuracy(imagesTest);
-            System.out.println("Success after epoch " + i + " is:" + rate);
-        }
+            System.out.println("Success after epoch " + i+1 + " is:" + rate);
+        }*/
 
 
 

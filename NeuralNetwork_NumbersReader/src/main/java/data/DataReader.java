@@ -153,6 +153,8 @@ public class DataReader {
                 return lowercaseName.endsWith(".jpg") || lowercaseName.endsWith(".jpeg") || lowercaseName.endsWith(".png");
             });
 
+            int totalImages = imageFiles.length;
+            int counter = 1;
             ImageProcessor imageProcessor = new ImageProcessor();
 
             if (imageFiles != null) {
@@ -167,6 +169,7 @@ public class DataReader {
                         // Save the processed image to the output directory
                         File outputImageFile = new File(outputDir, imageFile.getName());
                         ImageIO.write(processedImage, "png", outputImageFile);
+                        System.out.println(counter++  + "/" + totalImages);
                     } catch (IOException e) {
                         System.err.println(e.getMessage());
                     }
