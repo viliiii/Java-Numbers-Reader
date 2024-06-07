@@ -20,6 +20,29 @@ public class DataReader {
     private final int rows = 80;
     private final int columns = 45;
 
+
+    /**
+     * Reads all images from a given directory and returns them as a list of BufferedImage objects.
+     *
+     * @param dirPath The path to the directory containing the images.
+     * @return A list of BufferedImage objects representing the images in the directory.
+     */
+    public List<BufferedImage> readDirectory(String dirPath) {
+        Path path = Paths.get(dirPath);
+
+        List<BufferedImage> images = new ArrayList<>();
+
+        try(DirectoryStream<Path> imagesStream = Files.newDirectoryStream(path)){
+            for(Path imgPath : imagesStream){
+                BufferedImage image = ImageIO.read(new File(String.valueOf(imgPath)));
+                images.add(image);
+            }
+        }catch(IOException e){
+            System.err.println(e.getMessage());
+        }
+        return images;
+    }
+
     /**
      * Creates a list of Image images from the given folder.
      * Image label is the last character from the file name.
@@ -133,7 +156,7 @@ public class DataReader {
      * @param dirFrom directory containing labeled directories with images to be processed
      * @param dirTo directory containing labeled directories to save the processed images
      */
-    public void processDigitDirectory(String dirFrom, String dirTo){
+    public void processDigitsDirectory(String dirFrom, String dirTo){
         // Loop through all subdirectories named 0-9
         for (int i = 0; i <= 9; i++) {
             String subDirFrom = dirFrom + File.separator + i;
@@ -169,13 +192,60 @@ public class DataReader {
                         // Save the processed image to the output directory
                         File outputImageFile = new File(outputDir, imageFile.getName());
                         ImageIO.write(processedImage, "png", outputImageFile);
-                        System.out.println(counter++  + "/" + totalImages);
+                        System.out.println(i + ": " + counter++  + "/" + totalImages);
                     } catch (IOException e) {
                         System.err.println(e.getMessage());
                     }
                 }
             }
         }
+    }
+
+    /** Processes every image in the dirFrom directory using ImageProcessor, and
+     * saves the processed images into the dirTo directory.
+     * @param dirFrom directory containing images to process
+     * @param dirTo directory to save the processed images into
+     */
+    public void processImagesDirectory(String dirFrom, String dirTo, boolean scaling){
+        File inputDir = new File(dirFrom);
+        File outputDir = new File(dirTo);
+
+        // Create the output directory if it does not exist
+        if (!outputDir.exists()) {
+            outputDir.mkdirs();
+        }
+
+        // List all image files in the input directory
+        File[] imageFiles = inputDir.listFiles((dir, name) -> {
+            String lowercaseName = name.toLowerCase();
+            return lowercaseName.endsWith(".jpg") || lowercaseName.endsWith(".jpeg") || lowercaseName.endsWith(".png");
+        });
+
+        ImageProcessor imageProcessor = new ImageProcessor();
+
+        if (imageFiles != null) {
+            for (File imageFile : imageFiles) {
+                try {
+                    // Read the image
+                    BufferedImage image = ImageIO.read(imageFile);
+
+                    // Process the image using ImageProcessor
+                    BufferedImage processedImage;
+                    if(scaling){
+                        processedImage = imageProcessor.processImage(image);
+                    }else{
+                        processedImage = imageProcessor.processImage_noScaling(image);
+                    }
+
+                    // Save the processed image to the output directory
+                    File outputImageFile = new File(outputDir, imageFile.getName());
+                    ImageIO.write(processedImage, "png", outputImageFile);
+                } catch (IOException e) {
+                    System.err.println(e.getMessage());
+                }
+            }
+        }
+
     }
 }
 

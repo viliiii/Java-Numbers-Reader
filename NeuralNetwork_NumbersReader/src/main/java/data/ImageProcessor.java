@@ -28,10 +28,21 @@ public class ImageProcessor {
         return binarizedImage;
     }
 
+    public BufferedImage processImage_noScaling(BufferedImage image){
+
+        BufferedImage greyScaledImage = greyscale(image);
+
+        int threshold = otsuTreshold(greyScaledImage);
+
+        BufferedImage binarizedImage = binarize(greyScaledImage, threshold);
+
+        return binarizedImage;
+    }
+
     /**
      * Scales the image to 80:45 pixels.
      * Scales from whatever 16:9 format size
-     * to height of 80 and width of 45 pixels which is also a 16:9 format.
+     * to height of 80 and width of 45 pixels which is also a 16:9 format.  !!!!! CHANGED TO 28X28
      * @param image BufferedImage to be scaled.
      * @return scaled image in BufferedImage object.
      */
