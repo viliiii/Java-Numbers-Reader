@@ -76,6 +76,35 @@ public class DataReader {
         return images;
     }
 
+    /**
+     * Creates a list of Image images from the given folder.
+     * Image label is -1 because the labels are unknown.
+     * Used for reading extracted digits which are to be classified.
+     * @param dirPath the path to the folder containing images
+     * @return List of Image objects created of the given folder with images
+     */
+    public List<Image> readData_unknownLabel(String dirPath){
+        Path path = Paths.get(dirPath);
+
+        List<Image> images = new ArrayList<>();
+
+        try(DirectoryStream<Path> imagesStream = Files.newDirectoryStream(path)){
+            for(Path imgPath : imagesStream){
+                BufferedImage image = ImageIO.read(new File(String.valueOf(imgPath)));
+
+                String imgName = imgPath.getFileName().toString();
+                int labelIndex = imgName.lastIndexOf('.') - 1;
+                int label = -1;
+                double data[][] = readImageMatrix(image);
+
+                images.add(new Image(data, label));
+            }
+        }catch(IOException e){
+            System.err.println(e.getMessage());
+        }
+        return images;
+    }
+
     /** Creates Image object with label from the last character of the input directory Path.
      * @param dirPath the directory containing all the images of one digit
      * @return List of Image objects created of the given folder with images
@@ -128,7 +157,7 @@ public class DataReader {
      * @param image to be read as a Matrix
      * @return the Matrix of the image
      */
-    private double[][] readImageMatrix(BufferedImage image) {
+    public double[][] readImageMatrix(BufferedImage image) {
         int width = image.getWidth();
         int height = image.getHeight();
 
@@ -246,6 +275,24 @@ public class DataReader {
             }
         }
 
+    }
+
+    /** Processes the input JMBAG image. After this method, the image is ready
+     * for extracting digits.
+     * @param imageInputPath the JMBAG image to process
+     * @param imageOutputPath processed JMBAG image
+     */
+    public void processDigitsImage(String imageInputPath, String imageOutputPath) {
+        try {
+            BufferedImage imageInput = ImageIO.read(new File(imageInputPath));
+            ImageProcessor processor = new ImageProcessor();
+            BufferedImage processedImage = processor.processImage_noScaling(imageInput);
+
+            File outputFile = new File(imageOutputPath);
+            ImageIO.write(processedImage, "png", outputFile);
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 

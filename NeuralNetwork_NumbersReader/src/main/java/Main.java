@@ -7,7 +7,11 @@ import network.NeuralNetwork;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.imageio.ImageIO;
 
@@ -71,20 +75,15 @@ public class Main {
         builder.addConvolutionLayer(32, 3, 1, 0.001, SEED);
         builder.addMaxPoolLayer(10, 1);
         builder.addFullyConnectedLayer(10, 0.001, SEED, true);*/
-        /*builder.addConvolutionLayer(32, 5, 1, 0.001, SEED);
-        builder.addMaxPoolLayer(2, 2);
-        builder.addConvolutionLayer(64, 3, 1, 0.001, SEED);
-        builder.addMaxPoolLayer(2, 2);
-        builder.addFullyConnectedLayer(128, 0.001, SEED);
-        builder.addFullyConnectedLayer(64, 0.001, SEED);
-        builder.addFullyConnectedLayer(10, 0.001, SEED);*/
+
 
         NeuralNetwork network = builder.build();
+
 
         double withoutTraining_rate = network.testAccuracy(imagesTest);
         System.out.println("Pre training success rate: " + withoutTraining_rate);
 
-        int epochs = 20;
+        int epochs = 150;
 
         for (int i = 0; i < epochs; i++) {
             shuffle(imagesTrain);   //so the same digits are not grouped together, incoming one after another
@@ -93,10 +92,25 @@ public class Main {
             System.out.println("Success after epoch " + (i+1) + " is:" + rate);
         }
 
+        saveNeuralNetwork(network);
 
 
 
+    }
 
+    private static void saveNeuralNetwork(NeuralNetwork neuralNetwork) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+            String formattedDateTime = LocalDateTime.now().format(formatter);
+            String fileName = "networks/nn_" + formattedDateTime + ".ser";
+            FileOutputStream fos = new FileOutputStream(fileName);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(neuralNetwork);
+            oos.close();
+            fos.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());;
+        }
     }
 
 
