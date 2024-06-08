@@ -7,6 +7,8 @@ public class FullyConnectedLayer extends Layer{
 
     private long SEED;
 
+    private boolean isLast;
+
     private double[][] _weights;
     private int _inputLength;
     private int _outputLength;
@@ -16,11 +18,12 @@ public class FullyConnectedLayer extends Layer{
     private double[] lastNets;      //array of net values for each neuron in this layer (used for backpropagation)
     private double[] lastInput;     //array of input values from the layer before. (same usage)
 
-    public FullyConnectedLayer(int _inputLength, int _outputLength, long SEED, double learningRate) {
+    public FullyConnectedLayer(int _inputLength, int _outputLength, long SEED, double learningRate, boolean isLast) {
         this._inputLength = _inputLength;
         this._outputLength = _outputLength;
         this.SEED = SEED;
         this.learningRate = learningRate;
+        this.isLast = isLast;
 
         _weights = new double[_inputLength][_outputLength];
         setRandomWeights();
@@ -31,7 +34,7 @@ public class FullyConnectedLayer extends Layer{
         lastInput = input;
 
         double[] outNets = new double[_outputLength];
-        double[] outRelu = new double[_outputLength];
+        double[] outStep = new double[_outputLength];
 
         for(int i = 0; i < _inputLength; i++){
             for(int j = 0; j < _outputLength; j++){
@@ -41,11 +44,17 @@ public class FullyConnectedLayer extends Layer{
 
         lastNets = outNets;
 
-        for(int i = 0; i < _outputLength; i++){
-            outRelu[i] = reLu(outNets[i]);
+        if(!isLast){
+            for(int i = 0; i < _outputLength; i++){
+                outStep[i] = reLu(outNets[i]);
+            }
+        }else{
+            outStep = softMax(outNets);
         }
 
-        return outRelu;
+
+
+        return outStep;
 
     }
 
@@ -97,7 +106,12 @@ public class FullyConnectedLayer extends Layer{
             double dLdX_sum = 0;
             for(int j=0; j < _outputLength; j++) {
 
-                dOdZ = derivativeReLu(lastNets[j]);
+                if(!isLast){
+                    dOdZ = derivativeReLu(lastNets[j]);
+                }else {
+                    dOdZ = lastNets[j];
+                }
+
                 dZdw = lastInput[k];
                 dZdX = _weights[k][j];
 
@@ -150,6 +164,29 @@ public class FullyConnectedLayer extends Layer{
                 _weights[i][j] = random.nextGaussian();
             }
         }
+    }
+
+    public double[] softMax(double[] inputs) {
+        double max = Double.NEGATIVE_INFINITY;
+        for (double input : inputs) {
+            if (input > max) {
+                max = input;
+            }
+        }
+
+        double sum = 0.0;
+        double[] expValues = new double[inputs.length];
+        for (int i = 0; i < inputs.length; i++) {
+            expValues[i] = Math.exp(inputs[i] - max); // Subtract max to avoid overflow
+            sum += expValues[i];
+        }
+
+        double[] softmax = new double[inputs.length];
+        for (int i = 0; i < inputs.length; i++) {
+            softmax[i] = expValues[i] / sum;
+        }
+
+        return softmax;
     }
 
 

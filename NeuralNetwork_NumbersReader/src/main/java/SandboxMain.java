@@ -19,10 +19,11 @@ public class SandboxMain {
     public static void main(String[] args) {
         DataReader dataReader = new DataReader();
         /*Call only when pictures are added or removed.*/
-        dataReader.processImagesDirectory("C:\\Faks\\numbers_reader\\pre_processed_images\\0", "C:\\Faks\\numbers_reader\\processed_images\\0", true);
+        //dataReader.processImagesDirectory("C:\\Faks\\numbers_reader\\pre_processed_jmbag", "C:\\Faks\\numbers_reader\\processed_jmbag", false);
+
         DigitsExtractor digitsExtractor = new DigitsExtractor(150, 600);
 
-        //digitsExtractor.extractDigitsFromImageFile("C:\\Faks\\numbers_reader\\processed_jmbag\\Whole-Number-Table_cut.png", "C:\\Faks\\numbers_reader\\processed_jmbag\\extracted_digits");
+        digitsExtractor.extractDigitsFromImageFile("C:\\Faks\\numbers_reader\\processed_jmbag\\tara2.jpg", "C:\\Faks\\numbers_reader\\processed_jmbag\\extracted_digits");
 
     }
 }

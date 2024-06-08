@@ -50,20 +50,27 @@ public class Main {
         //List<Image> imagesTrain = dataReaderMNIST.readData("C:\\Faks\\numbers_reader\\MNIST_data\\mnist_train.csv");
         List<Image> imagesTest = dataReader.readSubDirectories("C:\\Faks\\numbers_reader\\processed_images_test");
 
+        //imagesTrain.forEach(Image::normalize);
+        //imagesTest.forEach(Image::normalize);
 
         System.out.println("Training images set size: " + imagesTrain.size());
         System.out.println("Test images set size: " + imagesTest.size());
 
-        /*for(int i = 0; i < 5000; i=i+500){
+        for(int i = 0; i < 5000; i=i+500){
             System.out.println(imagesTrain.get(i).toString());
-        }*/
+        }
         long SEED = 123;
         NetworkBuilder builder = new NetworkBuilder(28, 28, 256*100);   //probaj manji scaling
 
         builder.addConvolutionLayer(8, 5, 1, 0.1, SEED);
         builder.addMaxPoolLayer(3, 2);
-        builder.addFullyConnectedLayer(10, 0.1, SEED);
+        builder.addFullyConnectedLayer(10, 0.1, SEED, false);
 
+        /*builder.addConvolutionLayer(32, 3, 1, 0.001, SEED);
+        builder.addMaxPoolLayer(3, 2);
+        builder.addConvolutionLayer(32, 3, 1, 0.001, SEED);
+        builder.addMaxPoolLayer(10, 1);
+        builder.addFullyConnectedLayer(10, 0.001, SEED, true);*/
         /*builder.addConvolutionLayer(32, 5, 1, 0.001, SEED);
         builder.addMaxPoolLayer(2, 2);
         builder.addConvolutionLayer(64, 3, 1, 0.001, SEED);

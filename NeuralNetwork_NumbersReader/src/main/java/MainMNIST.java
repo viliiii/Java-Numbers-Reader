@@ -28,7 +28,7 @@ public class MainMNIST {
         NetworkBuilder builder = new NetworkBuilder(28,28,256*100);
         builder.addConvolutionLayer(8, 5, 1, 0.1, SEED);
         builder.addMaxPoolLayer(3,2);
-        builder.addFullyConnectedLayer(10, 0.1, SEED);
+        builder.addFullyConnectedLayer(10, 0.1, SEED, true);
 
         /*builder.addConvolutionLayer(32, 3, 1, 0.01, SEED);
         builder.addMaxPoolLayer(3, 3);

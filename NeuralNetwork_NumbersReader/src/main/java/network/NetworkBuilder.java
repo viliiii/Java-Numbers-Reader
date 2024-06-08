@@ -50,13 +50,13 @@ public class NetworkBuilder {
         }
     }
 
-    public void addFullyConnectedLayer(int outLength, double learningRate, long SEED){
+    public void addFullyConnectedLayer(int outLength, double learningRate, long SEED, boolean isLast){
         if(_layers.isEmpty()){
             /*Input length is 1 because this layer is the first layer, and input is one image representation matrix.*/
-            _layers.add(new FullyConnectedLayer(_inputRows*_inputCols, outLength, SEED, learningRate));
+            _layers.add(new FullyConnectedLayer(_inputRows*_inputCols, outLength, SEED, learningRate, isLast));
         } else {
             Layer prev = _layers.getLast();
-            _layers.add(new FullyConnectedLayer(prev.getOutputElements(), outLength, SEED, learningRate));
+            _layers.add(new FullyConnectedLayer(prev.getOutputElements(), outLength, SEED, learningRate, isLast));
         }
     }
 
