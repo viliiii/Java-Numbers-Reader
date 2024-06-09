@@ -21,7 +21,7 @@ public class ImageProcessor {
 
         BufferedImage greyScaledImage = greyscale(scaledImage);
 
-        int threshold = otsuTreshold(greyScaledImage);
+        int threshold = otsuThreshold(greyScaledImage);
 
         BufferedImage binarizedImage = binarize(greyScaledImage, threshold);
 
@@ -32,7 +32,7 @@ public class ImageProcessor {
 
         BufferedImage greyScaledImage = greyscale(image);
 
-        int threshold = otsuTreshold(greyScaledImage);
+        int threshold = otsuThreshold(greyScaledImage);
 
         BufferedImage binarizedImage = binarize(greyScaledImage, threshold);
 
@@ -149,13 +149,13 @@ public class ImageProcessor {
 
     /**
      * Calculates the 'Otsu threshold' value for the given greyscaled image.
-     * The 'Otsu threshold' is the value above which the pixels should be considered white, and above which
+     * The 'Otsu threshold' is the value above which the pixels should be considered white, and under which
      * should be considered black.
      * <a href="https://www.youtube.com/watch?v=jUUkMaNuHP8">...</a>
      * @param image the image to calculate the value on
      * @return calculated Otsu threshold value
      */
-    public int otsuTreshold(BufferedImage image) {
+    public int otsuThreshold(BufferedImage image) {
         int[] histogram = new int[256]; //histogram of greyscale values
         int width = image.getWidth();
         int height = image.getHeight();

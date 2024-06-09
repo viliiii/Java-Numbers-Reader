@@ -95,7 +95,7 @@ public class DataReader {
                 String imgName = imgPath.getFileName().toString();
                 int labelIndex = imgName.lastIndexOf('.') - 1;
                 int label = -1;
-                double data[][] = readImageMatrix(image);
+                double[][] data = readImageMatrix(image);
 
                 images.add(new Image(data, label));
             }
@@ -103,6 +103,20 @@ public class DataReader {
             System.err.println(e.getMessage());
         }
         return images;
+    }
+
+    public Image readImageFromFile(String imagePath) {
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File(String.valueOf(imagePath)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        int label = -1;
+        double[][] data = readImageMatrix(img);
+
+        return new Image(data, label);
     }
 
     /** Creates Image object with label from the last character of the input directory Path.

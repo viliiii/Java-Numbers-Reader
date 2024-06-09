@@ -67,6 +67,14 @@ public class NumbersReader {
         return output.toString();
     }
 
+    public int guessDigitFromFile(String inputImagePath, String nnPath) {
+        DataReader dataReader = new DataReader();
+        Image digitImage = dataReader.readImageFromFile(inputImagePath);
+        NeuralNetwork network = loadNN(nnPath);
+
+        return network.guess(digitImage);
+    }
+
 
     public static String getImageName(String inputImagePath) {
         Path path = Paths.get(inputImagePath);
@@ -116,7 +124,9 @@ public class NumbersReader {
     public static void main(String[] args) {
         NumbersReader reader = new NumbersReader();
 
-        String jmbag = reader.readNumbers("C:\\Faks\\numbers_reader\\pre_processed_jmbag\\tara2.jpg", "networks/nn_2024-06-08_23-25-32.ser");
+        String jmbag = reader.readNumbers("C:\\Faks\\numbers_reader\\pre_processed_jmbag\\antun.jpg", "networks/nn_2024-06-08_23-25-32.ser");
         System.out.println(jmbag);
+
+        //System.out.println(reader.guessDigitFromFile("C:\\Faks\\numbers_reader\\NeuralNetwork_NumbersReader\\processed_jmbag\\extracted_digits_scaled\\4.png", "networks/nn_2024-06-08_23-25-32.ser"));
     }
 }
