@@ -36,7 +36,7 @@ public class NumbersReader {
         /*Those box sizes work great with pictures from iPhone 12, 13, 14, 15.
         * If the original picture resolution is significantly smaller than 2K,
         * adjust box sizes by lowering them.*/
-        DigitsExtractor digitsExtractor = new DigitsExtractor(150, 600);
+        DigitsExtractor digitsExtractor = new DigitsExtractor(20, 600);
         deleteAllFilesInDirectory("processed_jmbag/extracted_digits");
         digitsExtractor.extractDigitsFromImageFile(processedImagePath, "processed_jmbag/extracted_digits");
 
@@ -124,9 +124,9 @@ public class NumbersReader {
     public static void main(String[] args) {
         NumbersReader reader = new NumbersReader();
 
-        String jmbag = reader.readNumbers("C:\\Faks\\numbers_reader\\pre_processed_jmbag\\antun.jpg", "networks/nn_2024-06-08_23-25-32.ser");
+        String jmbag = reader.readNumbers("C:\\Faks\\numbers_reader\\pre_processed_jmbag\\tara4.jpg", "networks/nn_2024-06-08_23-25-32.ser");
         System.out.println(jmbag);
 
-        //System.out.println(reader.guessDigitFromFile("C:\\Faks\\numbers_reader\\NeuralNetwork_NumbersReader\\processed_jmbag\\extracted_digits_scaled\\4.png", "networks/nn_2024-06-08_23-25-32.ser"));
+        //System.out.println(reader.guessDigitFromFile("C:\\Faks\\numbers_reader\\NeuralNetwork_NumbersReader\\processed_jmbag\\extracted_digits_scaled\\0.png", "networks/nn_2024-06-08_23-25-32.ser"));
     }
 }

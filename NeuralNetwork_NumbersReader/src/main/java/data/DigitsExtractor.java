@@ -4,9 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class DigitsExtractor {
 
@@ -58,8 +56,8 @@ public class DigitsExtractor {
         for (int[] box : boundingBoxes) {
             int x = box[0];
             int y = box[1];
-            int width = box[2] - box[0];
-            int height = box[3] - box[1];
+            int width = box[2] - box[0] - 1;
+            int height = box[3] - box[1] - 1;
             if (width > 0 && height > 0) {
                 BufferedImage digitImage = image.getSubimage(x, y, width, height);
                 digitImages.add(digitImage);
@@ -71,7 +69,7 @@ public class DigitsExtractor {
 
 
     /**
-     * Extracts the bounding boxes of black pixels in a binary image.
+     * Extracts the minimal bounding boxes of black pixels in a binary image.
      *
      * @param binaryImage The binary image to extract bounding boxes from.
      * @return A list of bounding boxes, where each box is represented as an array of four integers: [x-start, y-start, x-end, y-end].
@@ -84,7 +82,7 @@ public class DigitsExtractor {
         for(int y=0; y<binaryImage.getHeight(); y++) {
             for(int x=0; x<binaryImage.getWidth(); x++) {
                 // If the pixel is not visited and is black
-                if(!visited[y][x] && (binaryImage.getRGB(x, y) & 0xFF) == 0) {
+                if(!visited[y][x] && (binaryImage.getRGB(x, y) & 0xFF) == 255) {
                     // Initialize a new bounding box with the current pixel's coordinates
                     int[] box = new int[] {x, y, x, y};
 
@@ -99,6 +97,8 @@ public class DigitsExtractor {
                 }
             }
         }
+
+        boundingBoxes.sort(Comparator.comparingInt(box -> box[0]));
 
         // Return the list of bounding boxes
         return boundingBoxes;
@@ -151,7 +151,7 @@ public class DigitsExtractor {
             int x = pos[0];
             int y = pos[1];
 
-            if (x < 0 || y < 0 || x >= width || y >= height || visited[y][x] || (binaryImage.getRGB(x, y) & 0xFF) != 0) {
+            if (x < 0 || y < 0 || x >= width || y >= height || visited[y][x] || (binaryImage.getRGB(x, y) & 0xFF) == 0) {
                 continue;
             }
 
