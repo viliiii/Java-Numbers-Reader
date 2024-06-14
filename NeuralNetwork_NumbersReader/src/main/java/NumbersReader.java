@@ -17,13 +17,6 @@ import java.util.List;
 
 public class NumbersReader {
 
-    private NeuralNetwork model;
-
-    /*Trebam metodu koja prima String putanju do jmbag slike i vraća String brojeva koji su na slici. */
-
-    /*public NumbersReader(NeuralNetwork model) {
-        this.model = model;
-    }*/
 
     public String readNumbers(String inputImagePath, String nnPath) {
 
@@ -61,7 +54,7 @@ public class NumbersReader {
         StringBuilder output = new StringBuilder();
         for (var digit: digits) {
             System.out.println(digit);
-            output.append(network.guess(digit));
+            output.append(network.guess(digit) + " ");
         }
 
         return output.toString();
@@ -124,7 +117,7 @@ public class NumbersReader {
     public static void main(String[] args) {
         NumbersReader reader = new NumbersReader();
 
-        String jmbag = reader.readNumbers("C:\\Faks\\numbers_reader\\pre_processed_jmbag\\tara4.jpg", "networks/nn_2024-06-08_23-25-32.ser");
+        String jmbag = reader.readNumbers("C:\\Faks\\numbers_reader\\pre_processed_jmbag\\moj_novi2.jpg", "networks/nn_2024-06-12_18-33-17_85%.ser");
         System.out.println(jmbag);
 
         //System.out.println(reader.guessDigitFromFile("C:\\Faks\\numbers_reader\\NeuralNetwork_NumbersReader\\processed_jmbag\\extracted_digits_scaled\\0.png", "networks/nn_2024-06-08_23-25-32.ser"));

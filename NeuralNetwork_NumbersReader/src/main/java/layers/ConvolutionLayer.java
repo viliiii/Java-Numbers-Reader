@@ -198,7 +198,7 @@ public class ConvolutionLayer extends Layer{
 
         for(int f=0; f< _filters.size(); f++) {
             double[][] modified = add(filtersDelta.get(f), _filters.get(f));
-            filtersDelta.set(f, modified);
+            _filters.set(f, modified);
         }
 
         /*Now you need to send this layer's error to the layer below.

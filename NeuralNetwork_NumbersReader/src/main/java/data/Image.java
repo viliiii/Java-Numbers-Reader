@@ -42,4 +42,16 @@ public class Image {
             }
         }
     }
+
+    public void binarizeSimple(){
+        for(int r = 0; r < data.length; r++) {
+            for(int c = 0; c < data[0].length; c++) {
+                if(data[r][c] > 100) {
+                    data[r][c] = 255.0;
+                } else {
+                    data[r][c] = 0.0;
+                }
+            }
+        }
+    }
 }

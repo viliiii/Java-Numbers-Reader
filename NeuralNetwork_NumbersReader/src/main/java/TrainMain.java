@@ -1,23 +1,20 @@
 import data.DataReader;
 import data.DataReaderMNIST;
 import data.Image;
-import data.ImageProcessor;
 import network.NetworkBuilder;
 import network.NeuralNetwork;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import javax.imageio.ImageIO;
 
 import static java.util.Collections.shuffle;
 
-public class Main {
+public class TrainMain {
     /*public static void main(String[] args) {
 
         String imagePath = "C:\\Faks\\numbers_reader\\pre_processed_images\\WhatsApp5.jpg";
@@ -50,11 +47,11 @@ public class Main {
         DataReaderMNIST dataReaderMNIST = new DataReaderMNIST();
         DataReader dataReaderImages = new DataReader();
 
-        List<Image> imagesTrain = dataReader.readSubDirectories("C:\\Faks\\numbers_reader\\processed_images");
-        //List<Image> imagesTrain = dataReaderMNIST.readData("C:\\Faks\\numbers_reader\\MNIST_data\\mnist_train.csv");
+        //List<Image> imagesTrain = dataReader.readSubDirectories("C:\\Faks\\numbers_reader\\processed_images");
+        List<Image> imagesTrain = dataReaderMNIST.readData("C:\\Faks\\numbers_reader\\MNIST_data\\mnist_train.csv");
         List<Image> imagesTest = dataReader.readSubDirectories("C:\\Faks\\numbers_reader\\processed_images_test");
 
-        //imagesTrain.forEach(Image::normalize);
+        imagesTrain.forEach(Image::binarizeSimple);
         //imagesTest.forEach(Image::normalize);
 
         System.out.println("Training images set size: " + imagesTrain.size());
@@ -83,7 +80,7 @@ public class Main {
         double withoutTraining_rate = network.testAccuracy(imagesTest);
         System.out.println("Pre training success rate: " + withoutTraining_rate);
 
-        int epochs = 150;
+        int epochs = 8;
 
         for (int i = 0; i < epochs; i++) {
             shuffle(imagesTrain);   //so the same digits are not grouped together, incoming one after another
